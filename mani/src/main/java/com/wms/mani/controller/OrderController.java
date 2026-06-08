@@ -1,6 +1,7 @@
 package com.wms.mani.controller;
 
 import com.wms.mani.Model.Order;
+import com.wms.mani.repo.OrderRepository;
 import com.wms.mani.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+     @Autowired
+     private OrderRepository orderRepository;
 
     @PostMapping
     public Order createOrder(
@@ -27,7 +31,10 @@ public class OrderController {
             @RequestParam String status) {
         return orderService.updateStatus(id, status);
     }
-
+@DeleteMapping("/{id}")
+public void deleteOrder(@PathVariable Long id){
+        orderRepository.deleteById(id);
+}
     @GetMapping
     public List<Order> getAllOrder() {
         return orderService.getAllOrders();
